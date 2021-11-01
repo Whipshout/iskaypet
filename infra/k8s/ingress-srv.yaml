@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - host: iskaypet.dev
+      http:
+        paths:
+          - path: /api/pets/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: pets-srv
+                port:
+                  number: 3000
+          - path: /api/stats/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: stats-srv
+                port:
+                  number: 3000

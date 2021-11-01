@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pets-mongo-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pets-mongo
+  template:
+    metadata:
+      labels:
+        app: pets-mongo
+    spec:
+      containers:
+        - name: pets-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pets-mongo-srv
+spec:
+  selector:
+    app: pets-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

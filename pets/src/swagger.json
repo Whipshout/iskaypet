@@ -1,0 +1,112 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Iskaypet Pets Microservice",
+    "description": "Service to add new pets and get all the pets added by the service.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "basePath": "/api/pets",
+  "tags": [
+    {
+      "name": "Pets",
+      "description": "Pets API"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/lismascotas": {
+      "get": {
+        "tags": [
+          "Pets"
+        ],
+        "description": "Returns a list with all animals stored.\n\nIf there are no animals, returns an empty array.",
+        "summary": "Get a list of all the pets sotred in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Pets"
+            }
+          }
+        }
+      }
+    },
+    "/creamascota": {
+      "post": {
+        "tags": [
+          "Pets"
+        ],
+        "description": "The database fills up as animals are added to system.\n\nReturns the animal created.\n\nIf the data is not correct or something is missing, it returns 400 and an array of messages with each different error",
+        "summary": "Create a new pet in system",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/Pets"
+            },
+            "name": "Pet",
+            "in": "body"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Pets"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data.",
+            "schema": {
+              "$ref": "#/definitions/Errors"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Errors": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string"
+        }
+      }
+    },
+    "Pets": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number"
+        },
+        "birthdate": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

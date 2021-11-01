@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stats-postgres
+  template:
+    metadata:
+      labels:
+        app: stats-postgres
+    spec:
+      containers:
+        - name: stats-postgres
+          image: postgres:latest
+          env:
+            - name: NATS_CLIENT_ID
+              value: 'stats-depl'
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: 'iskaypet'
+            - name: POSTGRES_HOST
+              value: 'stats-postgres-srv'
+            - name: POSTGRES_PORT
+              value: '5432'
+            - name: POSTGRES_DB
+              value: 'statsdb'
+            - name: POSTGRES_USER
+              value: 'dev'
+            - name: POSTGRES_PASSWORD
+              value: 'dev'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stats-postgres-srv
+spec:
+  selector:
+    app: stats-postgres
+  ports:
+    - name: postgresdb
+      protocol: TCP
+      port: 5432
+      targetPort: 5432

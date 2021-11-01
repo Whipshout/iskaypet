@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stats-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stats
+  template:
+    metadata:
+      labels:
+        app: stats
+    spec:
+      containers:
+        - name: stats
+          image: whipshout/stats
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: 'iskaypet'
+            - name: POSTGRES_HOST
+              value: 'stats-postgres-srv'
+            - name: POSTGRES_PORT
+              value: '5432'
+            - name: POSTGRES_DB
+              value: 'statsdb'
+            - name: POSTGRES_USER
+              value: 'dev'
+            - name: POSTGRES_PASSWORD
+              value: 'dev'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stats-srv
+spec:
+  selector:
+    app: stats
+  ports:
+    - name: stats
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

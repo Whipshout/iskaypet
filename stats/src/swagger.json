@@ -1,0 +1,60 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Iskaypet Stats Microservice",
+    "description": "Service to calculate KPIs of the data stored by the pets service.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "basePath": "/api/stats",
+  "tags": [
+    {
+      "name": "Stats",
+      "description": "KPIs API"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/kpidemascotas": {
+      "get": {
+        "tags": [
+          "Stats"
+        ],
+        "description": "The database fills up as animals are added to the Pets microservice through messages on the event-bus.\n\nReturns the species with more records in database, its average age and standard deviation of the ages.\n\nIf there is no data available, it returns animal field as No data available and averageAge and standardDeviation as 0.",
+        "summary": "Get KPIs of pets stored in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Stats"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Stats": {
+      "type": "object",
+      "properties": {
+        "animal": {
+          "type": "string"
+        },
+        "averageAge": {
+          "type": "number"
+        },
+        "standardDeviation": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
