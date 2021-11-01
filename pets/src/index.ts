@@ -37,7 +37,7 @@ const start = async () => {
       console.log(err);
     });
 
-    // Connection to MongoDB
+    // Connection to Mongo-DB
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
