@@ -34,7 +34,7 @@ const start = async () => {
       console.log(err);
     });
 
-    // Create postgres table
+    // Create Postgres table
     await createTable();
 
     // Event-bus listener for PetCreated
