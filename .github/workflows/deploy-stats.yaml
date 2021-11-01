@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cd stats && docker build -t whipshout/stats .
-      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD docker.io
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
